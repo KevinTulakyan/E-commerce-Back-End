@@ -7,6 +7,10 @@ router.get('/', (req, res) => {
   // find all categories
   // be sure to include its associated Products
   Category.findAll({
+    include:[{
+      model: Product,
+    attributes:['product_name']
+    }]
     
   })
   .then(dbCategoryData => res.json(dbCategoryData))
@@ -20,13 +24,17 @@ router.get('/:id', (req, res) => {
   // find one category by its `id` value
   // be sure to include its associated Products
   Category.findOne({
+    include:[{
+      model: Product,
+    attributes:['product_name']
+    }],
     where:{
       id: req.params.id
     }
   })
   .then(dbCategoryData => {
     if (!dbCategoryData) {
-      res.status(404).json({ message: 'No user found with this id' });
+      res.status(404).json({ message: 'No category found with this id' });
       return;
     }
     res.json(dbCategoryData);
@@ -58,7 +66,7 @@ router.put('/:id', (req, res) => {
   })
   .then(dbCategoryData => {
     if (!dbCategoryData) {
-      res.status(404).json({ message: 'No user found with this id' });
+      res.status(404).json({ message: 'No category found with this id' });
       return;
     }
     res.json(dbCategoryData);
@@ -78,7 +86,7 @@ router.delete('/:id', (req, res) => {
   })
   .then(dbCategoryData => {
     if (!dbCategoryData) {
-      res.status(404).json({ message: 'No user found with this id' });
+      res.status(404).json({ message: 'No category found with this id' });
       return;
     }
     res.json(dbCategoryData);
